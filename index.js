@@ -27,12 +27,14 @@ for (let i = 0; i < 4; i++) {
 	}
 }
 let done = 0;
+let score = 0;
 for (let i = 0; i < 16; i++) {
 	document.getElementById(`block${i}`).addEventListener("click", async () => {
 		if(i != first) {
 			if(x === 2) {
 				console.log(`${first}, ${second}`);
 				if(values[first] != values[second]) {
+					score += 0.5;
 					document.getElementById(`content${first}`).style.display = "none";
 					document.getElementById(`content${second}`).style.display = "none";
 				}
@@ -60,13 +62,16 @@ for (let i = 0; i < 16; i++) {
 async function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
-let e = 0;
-async function ez(ms) {
+let beg = Date.now();
+function ez() {
 	if(done === 16)
 		return 0;
-	await sleep(ms);
-	document.getElementById("time").innerHTML = `${(Math.round(e * 100) / 100).toFixed(3)}`;
-	e += 0.01;
-	await ez(ms);
+	let timer = Date.now() - beg;
+	// await sleep(ms);
+	document.getElementById("time").innerHTML = `${(Math.round(timer * 100 + (score * 100000)) / 100000).toFixed(3)}`;
+
+	setTimeout(() => {
+		ez();
+	}, 10)
 }
-ez(1);
+ez();
