@@ -10,11 +10,11 @@ function getRandomInt(max) {
 values = new Array(16);
 
 for (let i = 0; i < 8; i++) 
-  values[2 * i] = values[2 * i + 1] = i + 1;
+	values[2 * i] = values[2 * i + 1] = i + 1;
 
 for (let i = 1; i < 16; i++) {
-  const j = getRandomInt(i + 1);
-  [values[i], values[j]] = [values[j], values[i]];
+	const j = getRandomInt(i + 1);
+	[values[i], values[j]] = [values[j], values[i]];
 }
 
 for (let i = 0; i < 4; i++) {
@@ -30,7 +30,7 @@ let done = 0;
 let score = 0;
 for (let i = 0; i < 16; i++) {
 	document.getElementById(`block${i}`).addEventListener("click", async () => {
-		if(i != first) {
+		if(i != first || second != -1 && values[i] >= 0) {
 			if(x === 2) {
 				console.log(`${first}, ${second}`);
 				if(values[first] != values[second]) {
@@ -48,11 +48,13 @@ for (let i = 0; i < 16; i++) {
 				first = i;
 			else if(second < 0)
 				second = i;
-			if(x === 2) {
+			if(x === 2 && values[i] >= 0) {
 				if(values[first] == values[second]) {
 					document.getElementById(`block${first}`).style.backgroundColor = "rgb(0, 0, 0)";
 					document.getElementById(`block${second}`).style.backgroundColor = "rgb(0, 0, 0)";
 					done += 2;
+					values[first] = -1;
+					values[second] = -1;
 				}
 			}
 		}
