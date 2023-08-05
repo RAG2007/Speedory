@@ -1,15 +1,15 @@
-const game = document.getElementById("gamecontainer"); 
+const game = document.getElementById("gamecontainer");
 let x = 0;
 let first = -1;
 let second = -1;
-
+let started = 0;
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 
 values = new Array(16);
 
-for (let i = 0; i < 8; i++) 
+for (let i = 0; i < 8; i++)
 	values[2 * i] = values[2 * i + 1] = i + 1;
 
 for (let i = 1; i < 16; i++) {
@@ -19,17 +19,20 @@ for (let i = 1; i < 16; i++) {
 
 for (let i = 0; i < 4; i++) {
 	for (let a = 0; a < 4; a++) {
-		game.insertAdjacentHTML("beforeend", `
-			<div id="block${a + i * 4}">
-				<div class="content" id="content${a + i * 4}">${values[a + i * 4]}</div>
-			</div>
-		`);
+		const div = document.createElement("div");
+		div.id = `block${a + i * 4}`;
+		game.appendChild(div);
+		const cont = div.appendChild(document.createElement("div"));
+		cont.className = `content`;
+		cont.id = `content${a + i * 4}`;
+		cont.innerHTML = `${values[a + i * 4]}`;
 	}
 }
+
 let done = 0;
 let score = 0;
 for (let i = 0; i < 16; i++) {
-	document.getElementById(`block${i}`).addEventListener("click", async () => {
+	document.getElementById(`block${i}`).addEventListener("click", () => {
 		if(i != first || second != -1 && values[i] >= 0) {
 			if(x === 2) {
 				console.log(`${first}, ${second}`);
@@ -58,6 +61,7 @@ for (let i = 0; i < 16; i++) {
 				}
 			}
 		}
+		started++;
 	});
 }
 
@@ -68,6 +72,9 @@ let beg = Date.now();
 function ez() {
 	if(done === 16)
 		return 0;
+	if(started === 0) {
+		beg = Date.now();
+	}
 	let timer = Date.now() - beg;
 	// await sleep(ms);
 	document.getElementById("time").innerHTML = `${(Math.round(timer * 100 + (score * 100000)) / 100000).toFixed(3)}`;
