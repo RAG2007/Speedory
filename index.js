@@ -6,6 +6,9 @@ let started = 0;
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
+//if commit works
+
+
 
 values = new Array(16);
 
