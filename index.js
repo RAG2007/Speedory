@@ -6,9 +6,6 @@ let started = 0;
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
-//if commit works
-
-
 
 values = new Array(16);
 
@@ -20,35 +17,33 @@ for (let i = 1; i < 16; i++) {
 	[values[i], values[j]] = [values[j], values[i]];
 }
 
-for (let i = 0; i < 4; i++) {
-	for (let a = 0; a < 4; a++) {
+for (let i = 0; i < 16; i++) {
 		const div = document.createElement("div");
-		div.id = `block${a + i * 4}`;
+		div.id = `block-${i}`;
 		game.appendChild(div);
 		const cont = div.appendChild(document.createElement("div"));
 		cont.className = `content`;
-		cont.id = `content${a + i * 4}`;
-		cont.innerHTML = `${values[a + i * 4]}`;
-	}
+		cont.id = `content-${i}`;
+		cont.innerHTML = `${values[i]}`;
 }
 
 let done = 0;
 let score = 0;
 for (let i = 0; i < 16; i++) {
-	document.getElementById(`block${i}`).addEventListener("click", () => {
+	document.getElementById(`block-${i}`).addEventListener("click", () => {
 		if(i != first || second != -1 && values[i] >= 0) {
 			if(x === 2) {
 				console.log(`${first}, ${second}`);
 				if(values[first] != values[second]) {
 					score += 0.5;
-					document.getElementById(`content${first}`).style.display = "none";
-					document.getElementById(`content${second}`).style.display = "none";
+					document.getElementById(`content-${first}`).style.display = "none";
+					document.getElementById(`content-${second}`).style.display = "none";
 				}
 				x = 0;
 				first = -1;
 				second = -1;
 			}
-			document.getElementById(`content${i}`).style.display = "block";
+			document.getElementById(`content-${i}`).style.display = "block";
 			x++;
 			if(first < 0)
 				first = i;
@@ -56,8 +51,8 @@ for (let i = 0; i < 16; i++) {
 				second = i;
 			if(x === 2 && values[i] >= 0) {
 				if(values[first] == values[second]) {
-					document.getElementById(`block${first}`).style.backgroundColor = "rgb(0, 0, 0)";
-					document.getElementById(`block${second}`).style.backgroundColor = "rgb(0, 0, 0)";
+					document.getElementById(`block-${first}`).style.backgroundColor = "rgb(0, 0, 0)";
+					document.getElementById(`block-${second}`).style.backgroundColor = "rgb(0, 0, 0)";
 					done += 2;
 					values[first] = -1;
 					values[second] = -1;
